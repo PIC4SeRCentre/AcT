@@ -11,7 +11,6 @@ from pathlib import Path
 # MACHINE LEARNING LIBRARIES
 import sklearn
 import tensorflow as tf
-import tensorflow_addons as tfa
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 # OPTUNA
@@ -74,7 +73,7 @@ class Trainer:
         else:
             lr = 3 * 10**self.config['LR_MULT']
         
-        optimizer = tfa.optimizers.AdamW(learning_rate=lr, weight_decay=self.config['WEIGHT_DECAY'])
+        optimizer = tf.keras.optimizers.AdamW(learning_rate=lr, weight_decay=self.config['WEIGHT_DECAY'])
 
         self.model.compile(optimizer=optimizer,
                            loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True, label_smoothing=0.1),

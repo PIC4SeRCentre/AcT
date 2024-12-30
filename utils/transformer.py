@@ -81,7 +81,7 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         x = tf.reshape(x, (batch_size, -1, self.num_heads, self.depth))
         return tf.transpose(x, perm=[0, 2, 1, 3])
 
-    def call(self, v, k, q, mask):
+    def __call__(self, v, k, q, mask):
         batch_size = tf.shape(q)[0]
 
         q = self.wq(q)  # (batch_size, seq_len, d_model)
@@ -131,7 +131,7 @@ class TransformerEncoderLayer(tf.keras.layers.Layer):
         self.dropout2 = tf.keras.layers.Dropout(self.dropout)
 
 	
-    def call(self, x, training):
+    def __call__(self, x, training):
         attn_output, _ = self.mha(x, x, x, None)  # (batch_size, input_seq_len, d_model)
             
         attn_output = self.dropout1(attn_output, training=training)
@@ -158,7 +158,7 @@ class TransformerEncoder(tf.keras.layers.Layer):
         base_config = super(TransformerEncoder, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
 
-    def call(self, x):
+    def __call__(self, x):
         for i in range(self.n_layers):
             x = self.encoder_layers[i](x)
 
@@ -178,7 +178,7 @@ class Patches(tf.keras.layers.Layer):
         base_config = super(Patches, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
 
-    def call(self, images):
+    def __call__(self, images):
         batch_size = tf.shape(images)[0]
         patches = tf.image.extract_patches(
             images=images,
@@ -217,7 +217,7 @@ class PatchClassEmbedding(tf.keras.layers.Layer):
         base_config = super(PatchClassEmbedding, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
     
-    def call(self, inputs):
+    def __call__(self, inputs):
         x =  tf.repeat(self.class_embed, tf.shape(inputs)[0], axis=0)
         x = tf.concat((x, inputs), axis=1)
         if self.pos_emb is None:

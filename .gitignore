@@ -8,4 +8,6 @@ datasets/
 .ipynb_checkpoints/
 utils/__pycache__/
 _old.py
-AcT_*
+AcT_*/
+hart-postprocessing/
+*.pyc
