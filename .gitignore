@@ -11,3 +11,7 @@ _old.py
 AcT_*/
 hart-postprocessing/
 *.pyc
+*.gif
+*.png
+*.jpg
+*.jpeg
